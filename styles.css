@@ -298,14 +298,27 @@ h1 {
 }
 
 .explore-card {
+  position: relative;
   display: block;
   padding: 17px 19px;
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--surface);
+  transition:
+    border-color 360ms ease,
+    background-color 360ms ease,
+    box-shadow 360ms ease,
+    transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.explore-card:hover { border-color: #704127; background: var(--surface-hover); }
+.explore-card:hover,
+.explore-card:focus-visible {
+  border-color: var(--orange);
+  background: var(--surface-hover);
+  box-shadow: 0 0 0 1px rgb(255 122 51 / 18%), 0 8px 22px rgb(0 0 0 / 30%), 0 0 18px rgb(255 122 51 / 12%);
+  transform: translateY(-2px) scale(1.012);
+  z-index: 1;
+}
 
 .explore-card-heading {
   display: flex;
@@ -978,6 +991,12 @@ h1 {
     transition: none;
   }
   .explore-preview-item { transition: none; }
+  .explore-card {
+    transform: none;
+    transition: none;
+  }
+  .explore-card:hover,
+  .explore-card:focus-visible { transform: none; }
   .project-item {
     transform: none;
     transition: none;
