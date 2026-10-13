@@ -55,7 +55,7 @@
         </div>
 
         <div class="project-stack">
-          <article class="project-item">
+          <article class="project-item has-details" id="apriltag-odometry-verification-system" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="apriltag-odometry-details" data-project-details="apriltag-odometry-details">
             <div class="project-topline">
               <h3>AprilTag Odometry Verification System</h3>
               <span class="status progress">In progress</span>
@@ -129,6 +129,61 @@
 
         </div>
       </section>
+
+      <div class="project-dialog is-media-rich" id="apriltag-odometry-details" popover role="dialog" aria-labelledby="apriltag-odometry-dialog-title" aria-describedby="apriltag-odometry-dialog-description">
+        <div class="project-dialog-content">
+          <div class="project-dialog-header">
+            <div>
+              <span class="section-label">Project details</span>
+              <h2 id="apriltag-odometry-dialog-title">AprilTag Odometry Verification System</h2>
+            </div>
+            <button class="project-dialog-close" type="button" popovertarget="apriltag-odometry-details" popovertargetaction="hide" aria-label="Close project details">×</button>
+          </div>
+
+          <div class="project-dialog-body" id="apriltag-odometry-dialog-description">
+            <p>
+              This system uses a known AprilTag as an external position reference for a robot. The OpenMV camera detects the tag, measures the camera’s position and orientation relative to it, and sends that observation into a verification pipeline that can identify drift in the robot’s wheel-and-IMU odometry.
+            </p>
+            <p>
+              The prototype converts the detected translation into millimeters, calculates straight-line distance and bearing, and reports pitch, yaw, and roll.
+            </p>
+
+            <div class="project-dialog-media-grid" aria-label="Project hardware and AprilTag">
+              <figure class="project-media-card camera-card">
+                <div class="project-media-frame">
+                  <img src="assets/projects/openmv-cam-rt1062.jpg" alt="Front view of the OpenMV Cam RT1062 used for the project" loading="lazy" />
+                </div>
+                <figcaption>
+                  <strong>OpenMV Cam RT1062</strong>
+                  <span>OV5640 5 MP image sensor</span>
+                  <a href="https://openmv.io/collections/cameras/products/openmv-cam-rt" target="_blank" rel="noopener noreferrer">Photo: OpenMV ↗</a>
+                </figcaption>
+              </figure>
+
+              <figure class="project-media-card">
+                <div class="project-media-frame">
+                  <img src="assets/projects/apriltag-detection.jpg" alt="The project's printed AprilTag with a red detection outline and center marker" loading="lazy" />
+                </div>
+                <figcaption>
+                  <strong>AprilTag landmark</strong>
+                  <span>Tag ID 0 detected during the recorded test</span>
+                </figcaption>
+              </figure>
+            </div>
+
+            <section class="project-demo" aria-labelledby="apriltag-demo-title">
+              <h3 id="apriltag-demo-title">Live detection test</h3>
+              <p>The OpenMV IDE shows the tag lock while the serial output updates distance, bearing, position, rotation, and frame rate.</p>
+              <video controls playsinline preload="metadata" poster="assets/projects/apriltag-detection.jpg">
+                <source src="assets/projects/apriltag-odometry-demo.mp4" type="video/mp4" />
+                Your browser does not support embedded video. <a href="assets/projects/apriltag-odometry-demo.mp4">Download the project recording</a>.
+              </video>
+            </section>
+          </div>
+
+          <ul class="tags project-dialog-tags" aria-label="Topics"><li>AprilTag</li><li>Computer vision</li><li>PCB design</li><li>Robotics</li></ul>
+        </div>
+      </div>
 
       <div class="project-dialog" id="laser-odometry-details" popover role="dialog" aria-labelledby="laser-odometry-dialog-title" aria-describedby="laser-odometry-dialog-description">
         <div class="project-dialog-content">
