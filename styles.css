@@ -35,6 +35,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+body:has(.project-dialog:popover-open) { overflow: hidden; }
+
 .has-entrance-motion .entrance-item {
   opacity: 0;
   transform: translateY(calc(18px + var(--hover-lift, 0px))) scale(var(--hover-scale, 1));
@@ -724,6 +726,7 @@ h1 {
   margin: auto;
   padding: 0;
   overflow: auto;
+  overscroll-behavior: contain;
   border: 1px solid #4a3a31;
   border-radius: 10px;
   background: var(--surface);
@@ -879,6 +882,18 @@ h1 {
   border-radius: 8px;
   background: #090909;
 }
+
+.project-repository-link {
+  display: inline-block;
+  margin-top: 20px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #55524d;
+  color: #c2bfb8;
+  font-size: 13px;
+}
+
+.project-repository-link span { margin-left: 3px; color: var(--orange); }
+.project-repository-link:hover { border-color: var(--orange); color: var(--orange); }
 
 .degree-card {
   position: relative;
