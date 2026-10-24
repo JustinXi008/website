@@ -793,6 +793,48 @@ h1 {
 .project-dialog-body p:last-child { margin-bottom: 0; }
 .project-dialog-tags { margin-top: 20px; }
 
+.classifier-demo-launch {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 6px;
+  padding: 11px 14px;
+  border: 1px solid #63402a;
+  border-radius: 7px;
+  background: var(--orange-soft);
+  color: var(--orange);
+  font: 500 13px/1.4 var(--sans);
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+.classifier-demo-launch:hover { background: #382319; border-color: var(--orange); }
+.classifier-demo-launch svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.4; }
+.classifier-demo-launch svg path { fill: currentColor; stroke: none; }
+.classifier-demo-launch-arrow { margin-left: 12px; font-size: 16px; }
+.classifier-dialog-actions { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
+.classifier-demo-back { display: inline-flex; align-items: center; gap: 6px; padding: 5px 0; border: 0; background: transparent; color: var(--muted); font: 12px/1.5 var(--sans); cursor: pointer; }
+.classifier-demo-back[hidden] { display: none; }
+.classifier-demo-back:hover { color: var(--orange); }
+.classifier-demo-launch:focus-visible, .classifier-demo-back:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
+.project-dialog.is-classifier-demo { width: min(calc(100% - 48px), 1240px); max-height: calc(100dvh - 48px); }
+.is-classifier-demo .project-dialog-content { padding: 22px; }
+.is-classifier-demo .project-dialog-header { align-items: center; padding-bottom: 16px; }
+.classifier-demo-view { padding-top: 22px; }
+.classifier-demo-caption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.classifier-demo-frame { display: block; width: 100%; height: 550px; border: 0; border-radius: 12px; background: #f3f2ec; color-scheme: light; }
+@media (max-width: 760px) {
+  .project-dialog.is-classifier-demo { width: calc(100% - 24px); max-height: calc(100dvh - 24px); }
+  .classifier-demo-frame { height: 1100px; }
+  .is-classifier-demo .project-dialog-content { padding: 14px; }
+  .is-classifier-demo .project-dialog-header { gap: 12px; }
+  .is-classifier-demo .project-dialog-header h2 { font-size: 17px; }
+  .classifier-demo-view { padding-top: 16px; }
+  .classifier-dialog-actions { gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .classifier-demo-launch { transition: none; }
+}
+
 .project-dialog-media-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

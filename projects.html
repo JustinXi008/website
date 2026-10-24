@@ -213,11 +213,15 @@
         <div class="project-dialog-content">
           <div class="project-dialog-header">
             <div>
-              <span class="section-label">Project details</span>
+              <span class="section-label" id="classifier-view-label">Project details</span>
               <h2 id="bag-of-words-dialog-title">Bag-of-Words Classifier</h2>
             </div>
-            <button class="project-dialog-close" type="button" popovertarget="bag-of-words-details" popovertargetaction="hide" aria-label="Close project details">×</button>
+            <div class="classifier-dialog-actions">
+              <button class="classifier-demo-back" id="classifier-demo-back" type="button" hidden><span aria-hidden="true">←</span> Back</button>
+              <button class="project-dialog-close" type="button" popovertarget="bag-of-words-details" popovertargetaction="hide" aria-label="Close project details">×</button>
+            </div>
           </div>
+          <div id="classifier-description-view">
           <div class="project-dialog-body" id="bag-of-words-dialog-description">
             <p>
               This C++ text classifier trains on labeled CSV discussion posts and learns how strongly each unique word is associated with a topic. It treats each post as a bag of words, so word order and repeated terms do not affect the result.
@@ -225,8 +229,14 @@
             <p>
               Sets and maps store the vocabulary, label totals, and word frequencies. For a new post, the classifier combines label priors and word likelihoods into a log-probability score, then chooses the highest-scoring label. Fallback estimates handle unseen words when the input contains unfamiliar vocabulary.
             </p>
+            <button class="classifier-demo-launch" id="classifier-demo-launch" type="button" aria-controls="classifier-demo-view" aria-expanded="false"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m8 6 6 4-6 4Z"/></svg>See how it works <span class="classifier-demo-launch-arrow" aria-hidden="true">↗</span></button>
           </div>
           <ul class="tags project-dialog-tags" aria-label="Topics"><li>C++</li><li>Machine learning</li><li>Natural language processing</li></ul>
+          </div>
+          <section class="classifier-demo-view" id="classifier-demo-view" aria-label="Interactive classifier animation" hidden>
+            <p class="classifier-demo-caption" id="classifier-demo-caption">Follow the words from input to prediction. Choose a sample to explore the classifier.</p>
+            <iframe class="classifier-demo-frame" id="classifier-demo-frame" title="Interactive Bag-of-Words Classifier animation" data-src="assets/projects/classifier-animation.html?embed=1"></iframe>
+          </section>
         </div>
       </div>
     </main>
