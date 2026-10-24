@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#121212" />
     <meta name="description" content="Details about Justin Xi's C++ bag-of-words classifier inspired by Piazza discussion posts." />
-    <title>Bag-of-Words Classifier — Justin Xi</title>
+    <title>Post Text Classifier — Justin Xi</title>
     <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="../styles.css" />
   </head>
@@ -37,7 +37,7 @@
       <article>
         <header class="article-header">
           <p class="article-kicker">Machine learning</p>
-          <h1>Bag-of-Words Classifier</h1>
+          <h1>Post Text Classifier</h1>
           <p class="article-deck">A C++ text classifier inspired by Piazza posts that learns from labeled examples and predicts the topic of new discussions.</p>
           <div class="article-byline">
             <time datetime="2026-03-27">March 27, 2026</time>
@@ -61,6 +61,8 @@
             The classifier uses a simplified multivariate Bernoulli Naive Bayes model. For each possible label, it combines the label’s prior probability with the likelihood of the words in the post. It uses log-probability scores to keep the calculation manageable, then selects the label with the highest score. The completed program can train from one dataset, classify a separate set of posts, and compare its predictions with the correct labels.
           </p>
         </div>
+
+        <p><a class="project-repository-link" href="../projects/post-text-classifier.html">Explore the project <span aria-hidden="true">→</span></a></p>
 
         <ul class="tags article-topics" aria-label="Topics"><li>C++</li><li>Machine learning</li><li>Natural language processing</li></ul>
       </article>

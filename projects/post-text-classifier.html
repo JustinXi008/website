@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#121212" />
+    <meta name="description" content="A C++ classifier that learns from labeled discussion posts and predicts the topic of a new post using word evidence and probability." />
+    <title>Post Text Classifier — Justin Xi</title>
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css" />
+    <script src="../projects.js" defer></script>
+  </head>
+  <body class="project-layout">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="site-notice" role="status">
+      <div class="site-notice-inner">
+        <span class="site-notice-tag">In development</span>
+        <p>This website is still being developed and updated.</p>
+      </div>
+    </div>
+
+    <header class="site-header">
+      <nav class="nav" aria-label="Main navigation">
+        <a class="logo" href="../index.html">Justin Xi<span>.</span></a>
+        <div class="nav-links">
+          <a href="../index.html">Home</a>
+          <a href="../posts.html">Posts</a>
+          <a class="active" href="../projects.html">Projects</a>
+          <a href="../coursework.html">Coursework</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main" class="page project-detail-page">
+      <a class="back-link" href="../projects.html">← All projects</a>
+      <article>
+        <header class="project-detail-heading">
+          <span class="section-label">Machine learning / C++</span>
+          <h1>Post Text Classifier</h1>
+          <p>A C++ classifier that learns from labeled discussion posts and predicts the topic of a new post using word evidence and probability.</p>
+        </header>
+        <figure class="project-hero classifier-hero">
+          <iframe class="project-animation-frame" src="../assets/projects/classifier-animation.html?embed=1" title="Interactive Post Text Classifier demonstration" data-classifier-frame></iframe>
+          <figcaption><span>01 / From text to prediction</span>Choose a sample to follow the words through the classifier.</figcaption>
+        </figure>
+        <div class="project-detail-grid">
+          <div class="project-detail-body">
+            <section>
+              <h2>Overview</h2>
+              <p>Inspired by Piazza discussions, this project turns labeled posts into a model that can recognize the topic of a new discussion. Labels come from the training data, so the classifier can work with different sets of topics.</p>
+              <p>The C++ implementation handles training, prediction, and evaluation. The interactive animation above illustrates its scoring process with a small example corpus in the browser.</p>
+            </section>
+            <section>
+              <h2>How it works</h2>
+              <ol class="project-steps">
+                <li><strong>Learn from labeled posts.</strong> Read CSV training data and count posts per label, unique vocabulary, and the number of posts containing each word.</li>
+                <li><strong>Keep unique words.</strong> Treat each post as a bag of words. Word order and repeated occurrences do not change the prediction.</li>
+                <li><strong>Score each topic.</strong> Combine the label’s log prior with the words’ log likelihoods. Fallback estimates handle words unseen within a label or across the training set.</li>
+                <li><strong>Choose the highest score.</strong> Predict the most likely label, then compare predictions with known labels when evaluating a test dataset.</li>
+              </ol>
+            </section>
+            <section>
+              <h2>Built with sets and maps</h2>
+              <p>Sets deduplicate the words in each post. Maps keep track of label totals and word frequencies, making those counts available during training and prediction. Log-probability scoring keeps the calculations manageable as evidence accumulates.</p>
+            </section>
+            <section>
+              <h2>Explore the animation</h2>
+              <p>Try Garden, Code, and Design to see how different words shift the scores. The Unknown sample introduces an unfamiliar word and shows how the fallback rule contributes to the result. Pause or replay the animation to inspect each stage.</p>
+            </section>
+          </div>
+          <aside class="project-facts" aria-label="Project information">
+            <div><h2>Status</h2><span class="status complete">Completed</span></div>
+            <div><h2>Focus</h2><p>Discussion topic prediction<br />Probabilistic classification<br />Training and evaluation</p></div>
+            <div><h2>Technologies</h2><ul class="tags"><li>C++</li><li>Naive Bayes</li><li>Maps &amp; sets</li><li>NLP</li></ul></div>
+            <div><h2>Links</h2><a href="../assets/projects/classifier-animation.html">Open full animation ↗</a></div>
+          </aside>
+        </div>
+        <a class="next-project" href="apriltag-odometry-verification-system.html"><span>Next featured project<strong>AprilTag Odometry Verification System</strong></span><b aria-hidden="true">→</b></a>
+      </article>
+    </main>
+    <footer class="footer"><p>© 2026 Justin Xi</p><a href="../projects.html">All projects →</a></footer>
+  </body>
+</html>

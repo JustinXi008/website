@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Binary Search Tree &amp; Map — Keys in motion</title>
+<style>
+html,body{margin:0;min-height:100%;background:#f3f2ec}
+.bst{--paper:#f3f2ec;--ink:#222b28;--muted:#73806e;--green:#254d3b;--line:#d7dcd1;box-sizing:border-box;width:100%;padding:30px clamp(18px,5vw,70px);overflow:hidden;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
+.bst *{box-sizing:border-box}.bst .wrap{max-width:1200px;margin:auto}
+.bst .heading{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-bottom:22px;font:11px/1.5 'SFMono-Regular',Consolas,monospace;letter-spacing:.08em;text-transform:uppercase}
+.bst .brand{display:flex;align-items:center;gap:10px;font-weight:600}.bst .brand:before{content:"";width:12px;height:12px;background:#60884d;border-radius:50%;box-shadow:7px 6px 0 -2px #df7755}.bst .meta{font-size:10px;color:#75816d;letter-spacing:.02em}
+.bst .stage{border:1px solid var(--line);border-radius:15px;background:#eeefe7;overflow:hidden}
+.bst .stage-top{display:flex;align-items:center;justify-content:space-between;padding:18px 22px 0;font:10px/1.5 'SFMono-Regular',Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:#66715f}
+.bst .live{display:flex;align-items:center;gap:7px}.bst .live:before{content:"";width:6px;height:6px;background:#60884d;border-radius:50%;box-shadow:0 0 0 3px #60884d15}
+.bst .scene{width:100%;height:auto;display:block;background-image:radial-gradient(#aab49f55 .7px,transparent .7px);background-size:18px 18px}
+.bst .scene text{fill:var(--ink);font-family:Arial,Helvetica,sans-serif}.bst .scene .mono{font-family:'SFMono-Regular',Consolas,monospace}.bst .scene .muted{fill:#73806e}
+.bst .controls{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 20px;border-top:1px solid var(--line);background:#f7f7f1}
+.bst .modes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;min-width:0;padding:4px;background:#e9ece2;border-radius:10px}
+.bst button{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 13px;min-height:36px;border:1px solid #cbd2c3;border-radius:6px;background:transparent;color:var(--ink);font:12px/1.4 Arial,sans-serif;cursor:pointer}
+.bst button:hover{background:#e6eadc}.bst button:focus-visible{outline:2px solid #426c3c;outline-offset:3px}
+.bst .mode{min-width:0;min-height:33px;padding:7px 13px;border:0;border-radius:7px;white-space:nowrap;color:#727d68;transition:background .18s,color .18s}
+.bst .mode[aria-pressed="true"]{background:#fffef8;color:#254d3b;box-shadow:0 1px 4px #263c2414;font-weight:600}
+.bst .actions{display:flex;gap:7px;flex-shrink:0}.bst button svg{width:13px;height:13px;stroke:currentColor;stroke-width:1.5;fill:none}.bst .primary{background:var(--ink);color:#f1f5e7;border-color:var(--ink);min-width:88px}.bst .primary:hover{background:var(--green)}
+.bst .process{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin:22px 0 0;padding:0;list-style:none}
+.bst .process li{position:relative;display:flex;align-items:baseline;gap:9px;padding-top:12px;border-top:2px solid var(--line);font-size:13px;line-height:1.5;color:#75816d}
+.bst .process li:before{content:"";position:absolute;left:0;top:-2px;width:var(--progress,0%);height:2px;background:var(--green)}
+.bst .process li[aria-current="step"]{color:var(--ink)}.bst .process-no{font:10px/1.5 'SFMono-Regular',Consolas,monospace;color:#829077}
+.bst .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.bst.embed{padding:clamp(14px,2.3vw,26px)}.bst.embed .heading{display:none}.bst.embed .wrap{max-width:none}
+@media(max-width:760px){.bst{padding:22px 18px}.bst .stage-top{padding:16px 16px 0}.bst .controls{padding:14px}.bst .heading{font-size:10px}.bst .meta{font-size:9px}}
+@media(max-width:520px){.bst .controls{flex-wrap:wrap;gap:10px}.bst .modes,.bst .actions{width:100%}.bst .mode{padding:9px 4px;min-height:40px;font-size:11px}.bst .actions button{flex:1;min-height:42px}.bst .process{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 14px}.bst .process li{font-size:12px;gap:7px}.bst .meta{display:none}}
+@media(pointer:coarse){.bst .mode{min-height:44px}}
+@media(prefers-reduced-motion:reduce){.bst .mode{transition:none}}
+</style>
+</head>
+<body>
+<main class="bst" id="bst-demo"><div class="wrap">
+  <header class="heading"><span class="brand">Binary Search Tree &amp; Map</span><span class="meta">C++ · Templates · Recursion</span></header>
+  <section class="stage" aria-label="Interactive tree and map animation">
+    <div class="stage-top"><span class="live" id="bst-live">Live</span><span id="bst-operation">Insert a key</span></div>
+    <svg class="scene" id="bst-scene" viewBox="0 0 1100 465" role="img" aria-labelledby="bst-title bst-description">
+      <title id="bst-title">Binary search tree operations in motion</title>
+      <desc id="bst-description">Compare keys to follow left or right branches. Insert a new leaf, find an existing key, iterate in ascending order, or create a map entry and set its value. The tree does not rebalance.</desc>
+      <defs><filter id="bst-shadow" x="-40%" y="-40%" width="180%" height="190%"><feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#233a22" flood-opacity=".06"/></filter></defs>
+      <g id="bst-edges"></g><g id="bst-nodes"></g><g id="bst-output"></g><g id="bst-card"></g><g id="bst-cursor" aria-hidden="true"></g>
+    </svg>
+    <div class="controls"><div class="modes" role="group" aria-label="Choose an operation">
+      <button class="mode" id="bst-mode-insert" type="button" aria-pressed="true">Insert</button>
+      <button class="mode" id="bst-mode-find" type="button" aria-pressed="false">Find</button>
+      <button class="mode" id="bst-mode-traverse" type="button" aria-pressed="false">Traverse</button>
+      <button class="mode" id="bst-mode-map" type="button" aria-pressed="false">Map</button>
+    </div><div class="actions"><button id="bst-replay" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6a5.4 5.4 0 1 1-.2 4M3 2v4h4"/></svg>Replay</button><button class="primary" id="bst-toggle" type="button" aria-pressed="false"><svg id="bst-play-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3v10M11 3v10"/></svg><span id="bst-play-label">Pause</span></button></div></div>
+  </section>
+  <ol class="process" aria-label="Operation steps">
+    <li id="bst-step-0" aria-current="step"><span class="process-no">01</span><span id="bst-step-label-0">Compare keys</span></li>
+    <li id="bst-step-1"><span class="process-no">02</span><span id="bst-step-label-1">Follow the branch</span></li>
+    <li id="bst-step-2"><span class="process-no">03</span><span id="bst-step-label-2">Insert a leaf</span></li>
+    <li id="bst-step-3"><span class="process-no">04</span><span id="bst-step-label-3">Keep keys ordered</span></li>
+  </ol>
+  <p class="sr-only" id="bst-status" aria-live="polite"></p>
+</div></main>
+<script>
+(() => {
+  'use strict';
+  const root=document.getElementById('bst-demo'),$=id=>root.querySelector('#'+id),scene=$('bst-scene');
+  const embedded=new URLSearchParams(location.search).get('embed')==='1';
+  if(embedded)root.classList.add('embed');
+  const NS='http://www.w3.org/2000/svg',modes=['insert','find','traverse','map'];
+  const settings={
+    insert:{code:'tree.insert(25)',title:'Insert a key',duration:8500,steps:['Compare keys','Follow the branch','Insert a leaf','Keep keys ordered'],bounds:[0,1100,3900,5200,7100]},
+    find:{code:'tree.find(50)',title:'Find a key',duration:8000,steps:['Start at the root','Follow comparisons','Match the key','Return the iterator'],bounds:[0,1100,2600,3900,6500]},
+    traverse:{code:'++iterator',title:'In-order traversal',duration:9500,steps:['Start at the minimum','Visit a node','Advance the iterator','Read sorted keys'],bounds:[0,900,2200,6100,7800]},
+    map:{code:'map[35] = 12',title:'Store a value',duration:10000,steps:['Look up the key','Create a missing entry','Set its value','Keep keys unique'],bounds:[0,3900,5000,6200,8500]}
+  };
+  // A browser illustration of the recursive C++ tree and key-only map ordering.
+  // Insertion retains the existing shape; there are no rotations or deletions.
+  const insertion=[40,20,60,10,30,50,70,25],payload={40:8,20:3,60:7,10:1,30:4,50:6,70:9,25:2,35:0};
+  class Tree {
+    constructor(){this.root=null;}
+    insert(key,value){const put=n=>{if(!n)return {key,value,left:null,right:null};if(key<n.key)n.left=put(n.left);else if(n.key<key)n.right=put(n.right);return n;};this.root=put(this.root);}
+    find(key){let n=this.root,path=[];while(n){path.push(n.key);if(key===n.key)return {node:n,path};n=key<n.key?n.left:n.right;}return {node:null,path};}
+    ordered(){const out=[],visit=n=>{if(n){visit(n.left);out.push(n.key);visit(n.right);}};visit(this.root);return out;}
+  }
+  function makeTree(keys){const tree=new Tree();keys.forEach(k=>tree.insert(k,payload[k]));return tree;}
+  const base=makeTree(insertion.slice(0,-1)),full=makeTree(insertion),expanded=makeTree([...insertion,35]);
+  const ordered=full.ordered();
+  const positions={40:[.5,0],20:[.25,1],60:[.75,1],10:[.125,2],30:[.375,2],50:[.625,2],70:[.875,2],25:[.3125,3],35:[.4375,3]};
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+  let mode='insert',paused=reduced.matches,time=paused?7000:0,last=0,visible=true,layout,nodes=new Map(),edges=[],slots=[],card={},cursor,announced=false;
+  const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v)),ease=x=>{x=clamp(x);return x*x*(3-2*x);};
+  function el(tag,attrs={},parent,content){const n=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v));if(content!==undefined)n.textContent=content;if(parent)parent.appendChild(n);return n;}
+  const text=(p,x,y,s,size=13,extra={})=>el('text',{x,y,'font-size':size,...extra},p,s);
+  const rect=(p,x,y,w,h,fill,rx=8,extra={})=>el('rect',{x,y,width:w,height:h,rx,fill,...extra},p);
+  const point=key=>{const [fraction,level]=positions[key];return {x:layout.tx+fraction*layout.tw,y:layout.ty+level*layout.gap};};
+  function snapshot(){
+    let active,path,stage,inserted=false,done=false,comparison='',direction='',result='',keys=insertion.slice();
+    const bounds=settings[mode].bounds;stage=time<bounds[1]?0:time<bounds[2]?1:time<bounds[3]?2:3;
+    if(mode==='insert'||mode==='map'){
+      const target=mode==='insert'?25:35,trace=mode==='insert'?base.find(target).path:full.find(target).path;
+      const index=Math.min(trace.length-1,Math.floor(time/1300));path=trace.slice(0,index+1);active=trace[index];
+      inserted=time>=3900;done=time>=(mode==='map'?6200:5200);
+      if(!inserted){comparison=`${target} ${target<active?'<':'>'} ${active}`;direction=target<active?'Go left':'Go right';}
+      else {active=target;path=[...trace,target];comparison=mode==='map'?(time<5000?'35 : 0':'35 : 12'):'25';direction=mode==='map'?(time<5000?'Value initialized':'Value assigned'):'Leaf inserted';}
+      keys=mode==='insert'?(inserted?insertion:insertion.slice(0,-1)):(inserted?[...insertion,35]:insertion);
+      result=mode==='map'?`${inserted?9:8} unique keys`:`${inserted?8:7} nodes`;
+    } else if(mode==='find'){
+      const trace=full.find(50).path,index=Math.min(trace.length-1,Math.floor(time/1300));path=trace.slice(0,index+1);active=trace[index];done=time>=3900;
+      comparison=`50 ${50<active?'<':50>active?'>':'='} ${active}`;direction=active===50?'Key found':50<active?'Go left':'Go right';result=active===50?'Iterator → 50':`${path.length} ${path.length===1?'comparison':'comparisons'}`;
+    } else {
+      const index=Math.min(ordered.length-1,Math.floor(Math.max(0,time-900)/650));active=ordered[index];path=[];done=time>=6100;comparison=String(active);direction=done?'Traversal complete':'Visit → advance';result=`${time<900?0:Math.min(ordered.length,Math.floor((time-900)/650)+1)} / ${ordered.length} visited`;
+    }
+    return {active,path,stage,inserted,done,comparison,direction,result,keys};
+  }
+  function build(){
+    const mobile=scene.clientWidth<760;
+    layout=mobile?{W:400,H:650,tx:0,tw:400,ty:65,gap:80,cx:28,cy:458,cw:344,ch:164,oy:393}:{W:1100,H:465,tx:35,tw:695,ty:67,gap:84,cx:790,cy:107,cw:282,ch:219,oy:411};
+    scene.setAttribute('viewBox',`0 0 ${layout.W} ${layout.H}`);
+    ['bst-edges','bst-nodes','bst-output','bst-card','bst-cursor'].forEach(id=>$(id).replaceChildren());nodes=new Map();edges=[];slots=[];
+    const isMap=mode==='map',nodeLayer=$('bst-nodes'),edgeLayer=$('bst-edges'),out=$('bst-output'),panel=$('bst-card');
+    const drawEdges=n=>{if(!n)return;for(const child of [n.left,n.right])if(child){const a=point(n.key),b=point(child.key),d=`M${a.x} ${a.y}C${a.x} ${a.y+40} ${b.x} ${b.y-40} ${b.x} ${b.y}`;const normal=el('path',{d,stroke:'#c2cdb8','stroke-width':1.5,fill:'none'},edgeLayer);const signal=el('path',{d,stroke:'#b48054','stroke-width':2.4,fill:'none',opacity:0},edgeLayer);edges.push({from:n.key,to:child.key,normal,signal});drawEdges(child);}};drawEdges(isMap?expanded.root:full.root);
+    const all=isMap?[...insertion,35]:insertion;
+    all.forEach(key=>{const p=point(key),g=el('g',{},nodeLayer);const halo=el('circle',{cx:p.x,cy:p.y,r:isMap?39:33,fill:'none',stroke:'#c6d79e','stroke-width':1,opacity:0},g);let shape;
+      if(isMap){const width=mobile?46:58;shape=rect(g,p.x-width/2,p.y-25,width,50,'#fffef8',10,{stroke:'#ccd5c3',filter:'url(#bst-shadow)'});}
+      else shape=el('circle',{cx:p.x,cy:p.y,r:24,fill:'#fffef8',stroke:'#ccd5c3','stroke-width':1.2,filter:'url(#bst-shadow)'},g);
+      text(g,p.x,p.y+(isMap?-4:5),String(key),isMap?15:16,{'text-anchor':'middle',class:'mono'});
+      const value=isMap?text(g,p.x,p.y+14,String(payload[key]),11,{'text-anchor':'middle',class:'mono muted'}):null;
+      nodes.set(key,{g,shape,halo,value});
+    });
+    const stripOrder=isMap?expanded.ordered():ordered;
+    const span=mobile?358:626,sw=span/stripOrder.length,x0=mobile?21:70;
+    stripOrder.forEach((key,i)=>{const x=x0+i*sw,g=el('g',{},out),bg=rect(g,x,layout.oy,sw-5,29,'#e5eadc',5);const label=text(g,x+(sw-5)/2,layout.oy+19,String(key),12,{'text-anchor':'middle',class:'mono'});slots.push({key,g,bg,label});});
+    text(out,x0,layout.oy-12,'KEY ORDER',10,{class:'mono muted','letter-spacing':1});
+    const {cx:x,cy:y,cw:w,ch:h}=layout;
+    rect(panel,x,y,w,h,'#fffef8',12,{stroke:'#d6dccf',filter:'url(#bst-shadow)'});
+    text(panel,x+20,y+29,settings[mode].code,13,{class:'mono'});
+    el('line',{x1:x+20,y1:y+46,x2:x+w-20,y2:y+46,stroke:'#e0e5d8'},panel);
+    card.comparison=text(panel,x+20,y+(mobile?86:99),'',mobile?25:30,{class:'mono'});
+    card.direction=text(panel,x+20,y+(mobile?111:128),'',13,{class:'muted'});
+    card.result=text(panel,x+20,y+h-19,'',11,{class:'mono muted'});
+    card.dot=el('circle',{cx:x+w-23,cy:y+h-23,r:3,fill:'#a6b49a'},panel);
+    cursor=el('circle',{r:4,fill:'#df7755',opacity:0},$('bst-cursor'));
+    $('bst-operation').textContent=settings[mode].title;
+    modes.forEach(name=>$('bst-mode-'+name).setAttribute('aria-pressed',String(name===mode)));
+    settings[mode].steps.forEach((s,i)=>$('bst-step-label-'+i).textContent=s);
+    render();
+  }
+  function render(){
+    if(!layout)return;const s=snapshot(),isMap=mode==='map';
+    for(const [key,n] of nodes){const exists=s.keys.includes(key),chosen=key===s.active,visited=s.path.includes(key),isNew=(mode==='insert'&&key===25)||(isMap&&key===35);
+      const progress=isNew?ease((time-3900)/650):1,p=point(key),scale=exists?(.72+.28*progress):1;
+      n.g.setAttribute('opacity',exists?progress:0);n.g.setAttribute('transform',`translate(${p.x*(1-scale)} ${p.y*(1-scale)}) scale(${scale})`);
+      n.shape.setAttribute('fill',chosen?(s.done||s.inserted?'#d4f47c':'#f3e5d7'):visited?'#edf1e5':'#fffef8');n.shape.setAttribute('stroke',chosen?(s.done||s.inserted?'#83a15b':'#b48054'):'#ccd5c3');
+      n.halo.setAttribute('opacity',chosen?.7:0);
+      if(n.value)n.value.textContent=String(key===35&&time>=5000?12:payload[key]);
+    }
+    edges.forEach(e=>{const exists=s.keys.includes(e.from)&&s.keys.includes(e.to),i=s.path.indexOf(e.from),selected=i>=0&&s.path[i+1]===e.to;e.normal.setAttribute('opacity',exists?1:0);e.signal.setAttribute('opacity',exists&&selected?1:0);});
+    let moving=false;
+    if(mode!=='traverse'&&time>=500&&time<3900){const trace=mode==='find'?[...full.find(50).path]:mode==='map'?[...full.find(35).path,35]:[...base.find(25).path,25];const idx=Math.floor(time/1300),u=clamp((time%1300-500)/700);if(idx<trace.length-1&&u>0&&u<1){const a=point(trace[idx]),b=point(trace[idx+1]),v=ease(u),iv=1-v;cursor.setAttribute('cx',iv*iv*iv*a.x+3*iv*v*v*b.x+v*v*v*b.x);cursor.setAttribute('cy',iv*iv*iv*a.y+3*iv*iv*v*(a.y+40)+3*iv*v*v*(b.y-40)+v*v*v*b.y);moving=true;}}
+    cursor.setAttribute('opacity',moving?1:0);
+    slots.forEach(({key,g,bg,label})=>{const shown=s.keys.includes(key),index=ordered.indexOf(key),visited=mode==='traverse'&&time>=900+index*650;g.setAttribute('opacity',shown?1:.22);bg.setAttribute('fill',key===s.active?'#d4f47c':visited?'#dce8c6':'#e5eadc');label.setAttribute('opacity',mode==='traverse'&&!visited?.35:1);});
+    card.comparison.textContent=s.comparison;card.direction.textContent=s.direction;card.result.textContent=s.result;card.dot.setAttribute('fill',s.done?'#60884d':'#b48054');
+    const bounds=settings[mode].bounds;
+    for(let i=0;i<4;i++){const step=$('bst-step-'+i);step.setAttribute('aria-current',s.stage===i?'step':'false');step.style.setProperty('--progress',clamp((time-bounds[i])/(bounds[i+1]-bounds[i]))*100+'%');}
+    if(s.done&&!announced){$('bst-status').textContent=mode==='traverse'?`In-order keys: ${ordered.join(', ')}.`:mode==='find'?'Key 50 found. Iterator returned.':mode==='map'?'Key 35 added with value 12. The map contains 9 unique keys.':'Key 25 inserted as the left child of 30. The tree contains 8 nodes.';announced=true;}
+  }
+  function sync(){
+    $('bst-toggle').setAttribute('aria-pressed',String(paused));$('bst-toggle').setAttribute('aria-label',paused?'Play animation':'Pause animation');$('bst-play-label').textContent=paused?'Play':'Pause';$('bst-live').textContent=paused?'Paused':'Live';$('bst-play-icon').replaceChildren();el('path',{d:paused?'M5 3l8 5-8 5Z':'M5 3v10M11 3v10'},$('bst-play-icon'));
+  }
+  modes.forEach(name=>$('bst-mode-'+name).addEventListener('click',()=>{mode=name;time=paused?settings[mode].duration-1000:0;last=0;announced=false;$('bst-status').textContent='';build();}));
+  $('bst-toggle').addEventListener('click',()=>{paused=!paused;last=0;sync();});
+  $('bst-replay').addEventListener('click',()=>{time=0;last=0;paused=false;announced=false;$('bst-status').textContent='';render();sync();});
+  reduced.addEventListener('change',e=>{if(e.matches){paused=true;time=settings[mode].duration-1000;render();sync();}});
+  new ResizeObserver(()=>{build();}).observe(scene);
+  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;last=0;}).observe(root);
+  document.addEventListener('visibilitychange',()=>{last=0;});
+  function tick(now){if(!paused&&visible&&!document.hidden){if(last)time+=Math.min(now-last,80);if(time>=settings[mode].duration){time%=settings[mode].duration;announced=false;$('bst-status').textContent='';}render();}last=now;requestAnimationFrame(tick);}
+  build();sync();requestAnimationFrame(tick);
+  if(embedded&&window.parent!==window){let lastHeight=0;const report=()=>{const height=Math.ceil(root.getBoundingClientRect().height)+4;if(height!==lastHeight){lastHeight=height;window.parent.postMessage({type:'bst:resize',height},'*');}};new ResizeObserver(report).observe(root);requestAnimationFrame(report);}
+})();
+</script>
+</body>
+</html>

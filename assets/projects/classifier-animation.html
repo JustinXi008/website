@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
-<title>Classifier — Text in. Insight out.</title>
+<title>Post Text Classifier — Text in. Insight out.</title>
 <style>
   html,body{margin:0;min-height:100%;background:#f3f2ec}
   /* Scoped styles keep the animation easy to embed. */
@@ -52,6 +52,12 @@
   @media(prefers-reduced-motion:reduce){.classifier .sample-choice{transition:none}}
   /* Add ?embed=1 to show only the animation panel. */
   .classifier.embed{padding:clamp(14px,2.3vw,26px);background:var(--paper)}.classifier.embed .eyebrow{display:none}.classifier.embed .wrap{max-width:none}
+  html.preview-page,html.preview-page body{height:100%;min-height:0}
+  .classifier.preview{padding:0;height:100%;display:grid;align-items:center}
+  .classifier.preview .wrap{width:100%}
+  .classifier.preview .eyebrow,.classifier.preview .stage-top,.classifier.preview .controls,.classifier.preview .process{display:none}
+  .classifier.preview .stage{border:0;border-radius:0;background:transparent}
+  .classifier.preview .scene{width:100%;height:auto}
 </style>
 </head>
 <body>
@@ -92,6 +98,8 @@
   'use strict';
   const root = document.getElementById('text-classifier');
   if (new URLSearchParams(location.search).get('embed') === '1') root.classList.add('embed');
+  const preview = new URLSearchParams(location.search).get('preview') === '1';
+  if (preview) { root.classList.add('preview'); document.documentElement.classList.add('preview-page'); }
   const $ = id => root.querySelector('#' + id);
   const scene = $('classifier-scene');
   const processSteps = [0,1,2,3].map(i=>$('process-'+i));
@@ -129,7 +137,7 @@
   function line(parent,x1,y1,x2,y2,stroke='#dce1d4',extra={}){return el('line',{x1,y1,x2,y2,stroke,...extra},parent);}
   function build(){
     const width=scene.clientWidth;
-    const mobile=width<720;
+    const mobile=!preview&&width<720;
     const W=mobile?400:1120,H=mobile?760:340;
     scene.setAttribute('viewBox',`0 0 ${W} ${H}`);
     const S=mobile?{x:50,y:35,w:300,h:168}:{x:36,y:98,w:264,h:168};
@@ -219,6 +227,10 @@
     sampleButtons.forEach((choice,j)=>choice.setAttribute('aria-pressed',String(j===current)));
     announced=false;time=paused?10000:0;last=0;build();
   }));
+  if (preview) window.addEventListener('message',event=>{
+    if(event.source!==window.parent||event.data?.type!=='classifier:pause')return;
+    paused=Boolean(event.data.paused);last=0;syncButton();
+  });
   const reduce=matchMedia('(prefers-reduced-motion: reduce)');
   reduce.addEventListener('change',e=>{if(e.matches){paused=true;time=10000;render();syncButton();}});
   // Pause off-screen and in background tabs without consuming animation time.
@@ -233,7 +245,7 @@
   if (window.parent !== window && root.classList.contains('embed')) {
     let lastHeight=0;
     const reportHeight=()=>{
-      const height=Math.ceil(root.getBoundingClientRect().height)+2;
+      const height=Math.ceil(root.getBoundingClientRect().height)+4;
       if(height!==lastHeight){lastHeight=height;window.parent.postMessage({type:'classifier:resize',height},'*');}
     };
     new ResizeObserver(reportHeight).observe(root);

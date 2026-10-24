@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#121212" />
+    <meta name="description" content="An external visual reference for robot odometry, built with AprilTag detection, a custom vision pipeline, and a camera interface PCB." />
+    <title>AprilTag Odometry Verification System — Justin Xi</title>
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css" />
+    <script src="../projects.js" defer></script>
+  </head>
+  <body class="project-layout">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="site-notice" role="status">
+      <div class="site-notice-inner">
+        <span class="site-notice-tag">In development</span>
+        <p>This website is still being developed and updated.</p>
+      </div>
+    </div>
+
+    <header class="site-header">
+      <nav class="nav" aria-label="Main navigation">
+        <a class="logo" href="../index.html">Justin Xi<span>.</span></a>
+        <div class="nav-links">
+          <a href="../index.html">Home</a>
+          <a href="../posts.html">Posts</a>
+          <a class="active" href="../projects.html">Projects</a>
+          <a href="../coursework.html">Coursework</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main" class="page project-detail-page">
+      <a class="back-link" href="../projects.html">← All projects</a>
+      <article>
+        <header class="project-detail-heading">
+          <span class="section-label">Robotics / Computer vision</span>
+          <h1>AprilTag Odometry Verification System</h1>
+          <p>An external visual reference for robot odometry, built with AprilTag detection, a custom vision pipeline, and a camera interface PCB.</p>
+        </header>
+        <figure class="project-hero">
+          <video controls muted playsinline preload="metadata" poster="../assets/projects/apriltag-odometry-cover.jpg" aria-label="Full AprilTag detection test recording" aria-describedby="apriltag-video-caption">
+            <source src="../assets/projects/apriltag-odometry-demo.mp4" type="video/mp4" />
+            <a href="../assets/projects/apriltag-odometry-demo.mp4">Download the full recording</a>.
+          </video>
+          <figcaption id="apriltag-video-caption"><span>01 / Live detection test</span>AprilTag tracking and live pose readings in the OpenMV IDE.</figcaption>
+        </figure>
+        <div class="project-detail-grid">
+          <div class="project-detail-body">
+            <section>
+              <h2>Overview</h2>
+              <p>Wheel encoders and inertial sensors can track a robot continuously, but wheel slip and sensor noise can cause its estimated position to drift. This project uses a known AprilTag as an independent visual checkpoint to help identify that drift.</p>
+              <p>The OpenMV camera measures its position and orientation relative to the tag. Those observations form the starting point for a pipeline that will compare the visual reference with the robot’s odometry.</p>
+            </section>
+            <section>
+              <h2>The current prototype</h2>
+              <p>The recorded test demonstrates tag detection and live camera-relative measurements. The prototype converts translation into millimeters, calculates straight-line distance and bearing, and reports pitch, yaw, roll, and frame rate.</p>
+              <div class="project-dialog-media-grid">
+                <figure class="project-media-card camera-card">
+                  <div class="project-media-frame"><img src="../assets/projects/openmv-cam-rt1062.jpg" alt="OpenMV Cam RT1062 with OV5640 image sensor" loading="lazy" /></div>
+                  <figcaption><strong>OpenMV Cam RT1062</strong><span>OV5640 5 MP image sensor</span><a href="https://openmv.io/collections/cameras/products/openmv-cam-rt" target="_blank" rel="noopener noreferrer">Photo: OpenMV ↗</a></figcaption>
+                </figure>
+                <figure class="project-media-card">
+                  <div class="project-media-frame"><img src="../assets/projects/apriltag-detection.jpg" alt="Printed AprilTag with a red detection outline and center marker" loading="lazy" /></div>
+                  <figcaption><strong>AprilTag landmark</strong><span>Tag ID 0 during the detection test</span></figcaption>
+                </figure>
+              </div>
+            </section>
+            <section>
+              <h2>From camera to robot</h2>
+              <ol class="project-steps">
+                <li><strong>Detect a known landmark.</strong> Estimate the camera’s translation and rotation relative to an AprilTag.</li>
+                <li><strong>Align the measurements.</strong> Account for camera placement, tag position, and timing to express observations in the robot’s coordinate system.</li>
+                <li><strong>Check for drift.</strong> Compare reliable observations with the primary odometry estimate before considering a correction.</li>
+              </ol>
+            </section>
+            <section>
+              <h2>What’s next</h2>
+              <p>The remaining work includes the camera-to-robot communication path, the custom interface PCB, camera calibration, and controlled movement tests. These will establish how reliably the full system can identify odometry drift.</p>
+            </section>
+          </div>
+          <aside class="project-facts" aria-label="Project information">
+            <div><h2>Status</h2><span class="status progress">In progress</span></div>
+            <div><h2>Focus</h2><p>Robot localization<br />Odometry verification<br />Hardware integration</p></div>
+            <div><h2>Technologies</h2><ul class="tags"><li>AprilTag</li><li>OpenMV</li><li>Computer vision</li><li>PCB design</li></ul></div>
+            <div><h2>Links</h2><a href="https://github.com/JustinXi008/AprilTag-Odometry-Verification-System" target="_blank" rel="noopener noreferrer">View code ↗</a></div>
+          </aside>
+        </div>
+        <a class="next-project" href="post-text-classifier.html"><span>Next featured project<strong>Post Text Classifier</strong></span><b aria-hidden="true">→</b></a>
+      </article>
+    </main>
+    <footer class="footer"><p>© 2026 Justin Xi</p><a href="../projects.html">All projects →</a></footer>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#121212" />
+    <meta name="description" content="A templated C++ binary search tree and key-value map, illustrated with interactive insertion, lookup, traversal, and map operations." />
+    <title>Binary Search Tree &amp; Map — Justin Xi</title>
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css" />
+    <script src="../projects.js" defer></script>
+  </head>
+  <body class="project-layout">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="site-notice" role="status"><div class="site-notice-inner"><span class="site-notice-tag">In development</span><p>This website is still being developed and updated.</p></div></div>
+    <header class="site-header">
+      <nav class="nav" aria-label="Main navigation">
+        <a class="logo" href="../index.html">Justin Xi<span>.</span></a>
+        <div class="nav-links"><a href="../index.html">Home</a><a href="../posts.html">Posts</a><a class="active" href="../projects.html">Projects</a><a href="../coursework.html">Coursework</a></div>
+      </nav>
+    </header>
+    <main id="main" class="page project-detail-page">
+      <a class="back-link" href="../projects.html">← All projects</a>
+      <article>
+        <header class="project-detail-heading">
+          <span class="section-label">Data structures / C++</span>
+          <h1>Binary Search Tree &amp; Map</h1>
+          <p>A recursive, templated binary search tree that also powers a map of unique keys and their values.</p>
+          <a class="bst-demo-link" href="#tree-animation">See how it works <span aria-hidden="true">↓</span></a>
+        </header>
+        <figure class="project-hero" id="tree-animation">
+          <iframe class="project-animation-frame bst-animation-frame" src="../assets/projects/bst-map-animation.html?embed=1" title="Interactive Binary Search Tree and Map demonstration" data-bst-frame></iframe>
+          <figcaption><span>01 / Keys in motion</span>Choose Insert, Find, Traverse, or Map.</figcaption>
+        </figure>
+        <div class="project-detail-grid">
+          <div class="project-detail-body">
+            <section>
+              <h2>Overview</h2>
+              <p>This C++ project builds a binary search tree and an associative map from linked nodes. A comparator determines key order, and recursive helpers handle insertion, search, traversal, copying, and destruction.</p>
+              <p>The browser animation follows the same ordering and map semantics with illustrative integer keys. The tree retains its insertion shape and does not rebalance.</p>
+            </section>
+            <section>
+              <h2>How it works</h2>
+              <ol class="project-steps">
+                <li><strong>Insert at a leaf.</strong> Compare a new key with the current node, follow the left or right subtree, and allocate a node at the first empty position.</li>
+                <li><strong>Find a key.</strong> Use the same comparisons to narrow the search to one branch at a time. A successful search returns an iterator; a missing key returns the end iterator.</li>
+                <li><strong>Iterate in order.</strong> Begin at the minimum key and advance to each successor. Iteration yields keys in comparator order.</li>
+                <li><strong>Build a map.</strong> Store key-value pairs in the tree and compare only their keys. Accessing a missing key with <code>operator[]</code> creates an entry with a value-initialized value.</li>
+              </ol>
+            </section>
+            <section>
+              <h2>Ownership and abstraction</h2>
+              <p>The tree recursively copies its nodes and releases them on destruction. The map reuses that tree and its iterator, keeping key ordering separate from the mapped values.</p>
+            </section>
+          </div>
+          <aside class="project-facts" aria-label="Project information">
+            <div><h2>Status</h2><span class="status complete">Completed</span></div>
+            <div><h2>Focus</h2><p>Recursive algorithms<br />Ordered iteration<br />Key-value storage<br />Memory ownership</p></div>
+            <div><h2>Technologies</h2><ul class="tags"><li>C++</li><li>BST</li><li>Templates</li><li>Iterators</li></ul></div>
+            <div><h2>Links</h2><a href="../assets/projects/bst-map-animation.html">Open full animation ↗</a></div>
+          </aside>
+        </div>
+        <a class="next-project" href="post-text-classifier.html"><span>Explore another project<strong>Post Text Classifier</strong></span><b aria-hidden="true">→</b></a>
+      </article>
+    </main>
+    <footer class="footer"><p>© 2026 Justin Xi</p><a href="../projects.html">All projects →</a></footer>
+  </body>
+</html>
