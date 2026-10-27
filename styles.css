@@ -827,6 +827,12 @@ h1 {
 .status.progress { background: var(--accent-soft); color: var(--status-accent); }
 .status.planned { background: var(--accent-soft); color: var(--status-accent); }
 
+:root[data-theme="light"] .status.progress {
+  background: #fff0bf;
+  color: #754000;
+  box-shadow: inset 0 0 0 1px #c28a26;
+}
+
 .tags {
   display: flex;
   flex-wrap: wrap;
